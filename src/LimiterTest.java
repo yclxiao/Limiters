@@ -8,16 +8,13 @@ import java.util.Date;
 import java.util.concurrent.CountDownLatch;
 
 /**
- * User: Rudy Tan
- * Date: 2018/10/1
- *
  * 限速器测试类
  */
-public class LimiterTestApp {
+public class LimiterTest {
 
     public static void main(String[] args) throws InterruptedException {
 
-        SimpleDateFormat sf = new SimpleDateFormat("yyyy-MM-dd HH-mm-ss-SSS");
+        SimpleDateFormat sf = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss:SSS");
         // 获取限速器
         Limiter countLimiter = LimiterFactory.getCountLimiter(LimiterEnum.LEAKY_BUCKET_LIMITER, 10);
         Limiter leakyBucketLimiter = LimiterFactory.getCountLimiter(LimiterEnum.LEAKY_BUCKET_LIMITER, 10);
@@ -36,10 +33,10 @@ public class LimiterTestApp {
                 public void run() {
                     // 输出信息放在tryAcquire里比较好
                     if (rateLimiter.tryAcquire()) {
-                        System.out.println("Success:" + Thread.currentThread().getName() + rateLimiter.getStatus() +
+                        System.out.println("Success:" + Thread.currentThread().getName() +
                                 " " + sf.format(new Date()));
                     } else {
-                        System.out.println("Failed:" + Thread.currentThread().getName() + rateLimiter.getStatus() +
+                        System.out.println("Failed:" + Thread.currentThread().getName() +
                                 " " + sf.format(new Date()));
                     }
 
@@ -48,7 +45,7 @@ public class LimiterTestApp {
             });
             thread.setName("thread_" + i);
             thread.start();
-
+            Thread.sleep(50);
         }
 
         // 获取整个过程执行时间

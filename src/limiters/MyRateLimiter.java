@@ -6,7 +6,7 @@ package limiters;
 public class MyRateLimiter extends Limiter {
 
     final int capacity;                             // 桶内能装多少令牌
-    int curTokenNum;                                // 现在桶内令牌数量
+    double curTokenNum;                             // 现在桶内令牌数量(用double存)
     long lastTime;                                  // 时间戳
 
     MyRateLimiter(int qps) {
@@ -19,7 +19,7 @@ public class MyRateLimiter extends Limiter {
     @Override
     public synchronized boolean tryAcquire() {
         long now = System.currentTimeMillis();
-        int intoToken = (int)((now - lastTime)/1000.0 * capacity);
+        double intoToken = (now - lastTime)/1000.0 * capacity;
         lastTime = now;
         if (intoToken + curTokenNum > capacity) {
             // 令牌已放满
@@ -27,13 +27,11 @@ public class MyRateLimiter extends Limiter {
             return true;
         } else if (intoToken + curTokenNum >= 1) {
             // 还有令牌
-            curTokenNum = intoToken + curTokenNum - 1;
+            curTokenNum += intoToken - 1;
             return true;
-        } else return false;
-    }
-
-    @Override
-    public String getStatus() {
-        return " 令牌个数： " + curTokenNum;
+        } else {
+            curTokenNum += intoToken;
+            return false;
+        }
     }
 }
