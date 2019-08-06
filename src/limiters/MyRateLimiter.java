@@ -1,13 +1,15 @@
 package limiters;
 
 /**
- * 令牌桶限流算法
+ * @Aauthor ChenCheng
+ * @Description 令牌桶限流算法
+ * @Date 2019/8/6
  */
 public class MyRateLimiter extends Limiter {
 
-    final int capacity;                             // 桶内能装多少令牌
-    double curTokenNum;                             // 现在桶内令牌数量(用double存)
-    long lastTime;                                  // 时间戳
+    private final int capacity;                             // 桶内能装多少令牌
+    private double curTokenNum;                             // 现在桶内令牌数量(用double存)
+    private long lastTime;                                  // 时间戳
 
     MyRateLimiter(int qps) {
         super(qps);

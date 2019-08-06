@@ -1,5 +1,10 @@
 package limiters;
 
+/**
+ * @Aauthor ChenCheng
+ * @Description 限流器抽象父类
+ * @Date 2019/8/4
+ */
 public abstract class Limiter {
 
     final int qps;

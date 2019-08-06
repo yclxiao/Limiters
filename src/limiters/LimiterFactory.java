@@ -1,5 +1,10 @@
 package limiters;
 
+/**
+ * @Aauthor ChenCheng
+ * @Description 限流器工厂类
+ * @Date 2019/8/4
+ */
 public class LimiterFactory {
 
     public static Limiter getCountLimiter(LimiterEnum limiterEnum, int qps) {

@@ -1,7 +1,9 @@
 package limiters;
 
 /**
- * 计数器限流算法
+ * @Aauthor ChenCheng
+ * @Description 计数器限流算法
+ * @Date 2019/8/4
  */
 public class CountLimiter extends Limiter {
 
@@ -18,8 +20,7 @@ public class CountLimiter extends Limiter {
     public synchronized boolean tryAcquire() {
         long now = System.currentTimeMillis();
         if (now - lastTime > 1000) {
-            lastTime = now>>3<<3;               // 保证时间戳后三位都是0.（是否这么做不太影响最后实现，但这样更精确）
-//            System.out.println("lastTime:" + lastTime);
+            lastTime = now>>3<<3;               // 保证时间戳后三位都是0, 更精确
             count = 1;
             return true;
         } else if (count < qps) {

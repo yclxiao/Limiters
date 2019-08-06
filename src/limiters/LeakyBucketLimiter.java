@@ -1,7 +1,9 @@
 package limiters;
 
 /**
- * 漏桶限流算法
+ * @Aauthor ChenCheng
+ * @Description 漏桶限流算法
+ * @Date 2019/8/4
  */
 public class LeakyBucketLimiter extends Limiter {
 
