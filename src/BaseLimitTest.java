@@ -24,7 +24,7 @@ public class BaseLimitTest {
         this.maxQPS = qps;
     }
 
-    public void test() throws Exception {
+    public void test(boolean showLog) throws Exception {
 
         SimpleDateFormat sf = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss:SSS");
 
@@ -48,13 +48,19 @@ public class BaseLimitTest {
         for (int i = 0; i < 100; i++) {
             executorService.execute(() -> {
                 if (limiter.tryAcquire()) {
-                    System.out.println("success " + sf.format(new Date()));
+                    if (showLog)
+                        System.out.println("success " + sf.format(new Date()));
                     count1.incrementAndGet();
                 } else {
-                    System.out.println("failed " + sf.format(new Date()));
+                    if (showLog)
+                        System.out.println("failed " + sf.format(new Date()));
                 }
                 countDownLatch1.countDown();
             });
+            // 计数器算法最多请求20次，出现突刺现象
+            if (i < 50 || i > 80) {
+                Thread.sleep(20);
+            }
         }
 
         countDownLatch1.await();
@@ -68,17 +74,20 @@ public class BaseLimitTest {
         for (int i = 0; i < 100; i++) {
             executorService.execute(() -> {
                 if (limiter.tryAcquire()) {
-                    System.out.println("success " + sf.format(new Date()));
+                    if (showLog)
+                        System.out.println("success " + sf.format(new Date()));
                     count2.incrementAndGet();
                 } else {
-                    System.out.println("failed " + sf.format(new Date()));
+                    if (showLog)
+                        System.out.println("failed " + sf.format(new Date()));
                 }
                 countDownLatch2.countDown();
             });
             // 每 10 次请求延时 1 秒
-            if ((i + 1) % 10 == 0) {
-                Thread.sleep(1000);
-            }
+//            if ((i + 1) % 10 == 0) {
+//                Thread.sleep(1000);
+//            }
+            Thread.sleep(100);
         }
 
         countDownLatch2.await();
@@ -92,17 +101,20 @@ public class BaseLimitTest {
         for (int i = 0; i < 100; i++) {
             executorService.execute(() -> {
                 if (limiter.tryAcquire()) {
-                    System.out.println("success " + sf.format(new Date()));
+                    if (showLog)
+                        System.out.println("success " + sf.format(new Date()));
                     count3.incrementAndGet();
                 } else {
-                    System.out.println("failed " + sf.format(new Date()));
+                    if (showLog)
+                        System.out.println("failed " + sf.format(new Date()));
                 }
                 countDownLatch3.countDown();
             });
-            // 每 10 次请求延时 1 秒
-            if ((i + 1) % 20 == 0) {
-                Thread.sleep(1000);
-            }
+//            // 每 10 次请求延时 1 秒
+//            if ((i + 1) % 20 == 0) {
+//                Thread.sleep(1000);
+//            }
+            Thread.sleep(50);
         }
 
         countDownLatch3.await();
