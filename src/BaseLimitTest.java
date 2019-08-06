@@ -45,6 +45,7 @@ public class BaseLimitTest {
         // 获取开始时间
         long startTime = System.currentTimeMillis();
 
+        // 前 1s 平均 50 次，随后不到 1s 内发起 50 次请求
         for (int i = 0; i < 100; i++) {
             executorService.execute(() -> {
                 if (limiter.tryAcquire()) {
@@ -71,7 +72,7 @@ public class BaseLimitTest {
 
         startTime = System.currentTimeMillis();
 
-        // 功能性测试
+        // 功能性测试，每秒平均 10 次请求
         for (int i = 0; i < 100; i++) {
             executorService.execute(() -> {
                 if (limiter.tryAcquire()) {
@@ -99,6 +100,7 @@ public class BaseLimitTest {
 
         startTime = System.currentTimeMillis();
 
+        // 前 4.5s 平均每秒 20 次请求，4.5s 后并发请求 10 次
         for (int i = 0; i < 100; i++) {
             executorService.execute(() -> {
                 if (limiter.tryAcquire()) {
