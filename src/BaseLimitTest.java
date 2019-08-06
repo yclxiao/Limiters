@@ -28,9 +28,9 @@ public class BaseLimitTest {
 
         SimpleDateFormat sf = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss:SSS");
 
-        final CountDownLatch countDownLatch1 = new CountDownLatch(maxQPS);
-        final CountDownLatch countDownLatch2 = new CountDownLatch(maxQPS);
-        final CountDownLatch countDownLatch3 = new CountDownLatch(maxQPS);
+        final CountDownLatch countDownLatch1 = new CountDownLatch(100);
+        final CountDownLatch countDownLatch2 = new CountDownLatch(100);
+        final CountDownLatch countDownLatch3 = new CountDownLatch(100);
 
         // 用于统计成功请求个数
         AtomicInteger count1 = new AtomicInteger(0);
