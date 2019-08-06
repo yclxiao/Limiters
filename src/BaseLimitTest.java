@@ -71,6 +71,7 @@ public class BaseLimitTest {
 
         startTime = System.currentTimeMillis();
 
+        // 功能性测试
         for (int i = 0; i < 100; i++) {
             executorService.execute(() -> {
                 if (limiter.tryAcquire()) {
@@ -114,7 +115,10 @@ public class BaseLimitTest {
 //            if ((i + 1) % 20 == 0) {
 //                Thread.sleep(1000);
 //            }
-            Thread.sleep(50);
+            // 测试下令牌桶算法瞬时处理一定量的请求
+            if (i < 90) {
+                Thread.sleep(50);
+            }
         }
 
         countDownLatch3.await();
