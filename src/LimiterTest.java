@@ -30,6 +30,7 @@ public class LimiterTest {
         long startTime = System.currentTimeMillis();
         for (int i=0; i< maxNum; i++){
              Thread thread = new Thread(new Runnable() {
+                 @Override
                 public void run() {
                     // 输出信息放在tryAcquire里比较好
                     if (rateLimiter.tryAcquire()) {

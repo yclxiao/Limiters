@@ -10,8 +10,8 @@ public class LimiterFactory {
                 return new LeakyBucketLimiter(qps);
             case MYRATE_LIMITER:
                 return new MyRateLimiter(qps);
-                default:
-                    return null;
+            default:
+                return null;
         }
     }
 
