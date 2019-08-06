@@ -34,12 +34,10 @@ public class LeakyBucketLimiter extends Limiter {
                 long waitingMs = (long)((remainWater / capacity) * 1000);   // 计算刚加入的水滴完全滴出漏桶需要的时间（毫秒）
                 lock.unlock();
                 try {
-                    //System.out.println("睡了！" + waitingMs);
-                    Thread.sleep(waitingMs);
+                    Thread.sleep(waitingMs);                                // 为实现匀速处理请求，需要阻塞一段时间后再return
                 } catch (InterruptedException e) {
                     e.printStackTrace();
                 }
-                //System.out.println("睡醒了！" + System.currentTimeMillis());
                 return true;
             } else return false;
         } finally {
